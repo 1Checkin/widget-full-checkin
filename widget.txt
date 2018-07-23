@@ -1,0 +1,867 @@
+    <script type="text/x-template" id="seatmap_request" data-title="Карта мест ..."><%#back_url%>
+        <p>
+        <a href="#<%back_url%>" class="och-btn och-btn-default">
+            &larr; назад к перелету <%#thread%>
+                <%#date_format%><%thread.first_flight.flight_date%><%/date_format%>
+                <%thread.first_flight.airline.code%>-<%thread.first_flight.flight_num%>
+            <%/thread%>
+        </a>
+        </p>
+    <%/back_url%>
+    <h1 class="visible-xs">Запрос мест</h1>
+    <form class="och-form-horizontal">
+        <div class="och-cards">
+            <%#data.seatmap%>
+            <div class="och-card och-card-seatmap och-card-double">
+                <div class="och-content och-seatmap-container" data-bind="seatmap-container"></div>
+                <div class="och-legend collapse in visible-xs">
+                    <div class="och-container">
+                    <button type="button" class="och-close" data-toggle="collapse" data-target=".collapse">
+                        <i class="och-icon och-icon-cross"></i>
+                    </button>
+                    <table class="och-seatmap">
+                    <tbody>
+                    <tr>
+                        <td class="isExists"></td>
+                        <td class="och-space">Место занято</td>
+                    </tr>
+                    <tr>
+                        <td class="isExists isEmpty"></td>
+                        <td class="och-space">Свободное место</td>
+                    </tr>
+                    <tr>
+                        <td class="isExists isCurrent"></td>
+                        <td class="och-space">Выбранное место</td>
+                        <%#data.has_paid_seats%>
+                    </tr>
+                    <tr>
+                        <td class="isExists isPaid isEmpty"></td>
+                        <td class="och-space">Платное место</td>
+                    <%/data.has_paid_seats%>
+                    </tr>
+                    </tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="och-card">
+                <div class="och-header"> Выберите места для всех пассажиров </div>
+                <div class="och-content">
+                    <%#data.passengers%>
+                    <div class="och-form-group <%#is_active%> active<%/is_active%> och-psg" data-psg_id="<%id%>" data-bind="psg">
+                        <div class="och-row och-half-gap">
+                            <label class="och-col-xs-7 och-col-sm-8">
+                                <%first_name%> <%#initial%><%last_name%><%/initial%>
+                                <%#infant%>
+                                <br>младенец:
+                                <%first_name%> <%#initial%><%last_name%><%/initial%>
+                                <%/infant%>
+                            </label>
+                            <div class="och-col-xs-5 och-col-sm-4">
+                                <input type="text" name="seat" value="<%seat%>" class="och-form-control" data-psg_id="<%id%>" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <%/data.passengers%>
+                    <%#has_paid_seats%>
+                    <div class="och-alert och-alert-warning">
+                        <%#seats_cost%> Стоимость выбранных мест:
+                            <%seats_cost%> <%seats_cost_currency%>
+                        <%/seats_cost%>
+                        <%^seats_cost%> Выбранные места платные, но их стоимость пока неизвестна, обычно она составляет 300-3000 руб. Если их выбрать, вы получите повторный запрос с ценой. <%/seats_cost%>
+                        <br><br>
+                        <%^data.has_card_info%> Выбрано платное место. Для продолжения необходимо заполнить платежную информацию <br><br>
+                        <a href="#user/card/" class="och-btn och-btn-warning"> Заполнить платежную информацию </a>
+                        <%#data.has_card_info%> Выбрано платное место. Необходимая сумма будет списана с вашей карты после сохранения мест <%/data.has_card_info%>
+                        <br>
+                    <%/data.has_card_info%>
+                    </div>
+                    <%/has_paid_seats%>
+                    <div class="och-btn-toolbar hidden-xs">
+                        <button class="och-btn och-btn-default hidden" data-bind="apply" type="button">Выбрать автоматически</button>
+                        <button class="och-btn och-btn-default" data-bind="btn-skip" type="button">Пропустить выбор мест</button>
+                        <button class="och-btn och-btn-primary" type="submit" <%#submit_disabled%> disabled<%/submit_disabled%>>Сохранить</button>
+                    </div>
+                    <div class="visible-xs">
+                        <div class="och-form-group" data-bind="form-group">
+                            <button class="och-btn och-btn-default och-btn-block hidden" data-bind="apply" type="button">Выбрать автоматически</button>
+                        </div>
+                        <div class="och-form-group" data-bind="form-group">
+                            <button class="och-btn och-btn-default och-btn-block" data-bind="btn-skip" type="button">Пропустить выбор мест</button>
+                        </div>
+                        <div class="och-form-group" data-bind="form-group">
+                            <button class="och-btn och-btn-primary och-btn-block" type="submit" <%#submit_disabled%> disabled<%/submit_disabled%>>Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="och-legend hidden-xs">
+                    <table class="och-seatmap">
+                    <tbody><tr>
+                        <td class="isExists"></td>
+                        <td class="och-space">Место занято</td>
+                        <td class="isExists isEmpty"></td>
+                        <td class="och-space">Свободное место</td>
+                        <td class="isExists isCurrent"></td>
+                        <td class="och-space">Выбранное место</td>
+                        <%#data.has_paid_seats%>
+                    </tr>
+                    <tr>
+                        <td class="isExists isPaid isEmpty"></td>
+                        <td class="och-space">Платное место</td>
+                        <%/data.has_paid_seats%>
+                    </tr></tbody></table>
+                </div>
+            </div>
+        <%/data.seatmap%>
+        <%^data.seatmap%>
+            <div class="och-alert och-alert-warning"> В данный момент карта мест недоступна для этого перелета. Такая ситуация может быть, если у вас еще не запросили место или место уже было выбрано и выбор места более не доступен </div>
+        <%/data.seatmap%>
+        </div>
+    </form></script><script type="text/x-template" id="seatmap_settings" data-title="Выбор места"><%#back_url%>
+        <p>
+        <a href="#<%back_url%>" class="och-btn och-btn-default">
+             &larr; назад к перелету <%#thread%>
+                <%#date_format%><%thread.first_flight.flight_date%><%/date_format%>
+                <%thread.first_flight.airline.code%>-<%thread.first_flight.flight_num%>
+            <%/thread%>
+        </a>
+        </p>
+    <%/back_url%>
+    <h1 class="visible-xs">Выбор места</h1>
+    <form role="form">
+    <div class="och-row">
+        <div class="och-col-sm-8">
+            <div class="och-form-group" data-bind="form-group">
+                <a class="och-hint och-pull-right visible-xs" href="#skip-help" data-toggle="collapse"></a>
+                <span class="och-checkbox" data-bind="checkbox">
+                    <input type="checkbox" name="skip" <%#is_skip%> checked<%/is_skip%>>
+                </span> Не выбирать место (выбрано заранее) <a class="och-hint hidden-xs" href="#skip-help" data-toggle="collapse"></a>
+                <div class="collapse och-well" id="skip-help"> Система пропустит выбор места при регистрации. <br>Полезно, если вы уже выбрали место при покупке билета.<br>Вы можете изменить правила выбора места в каждом отдельном бронировании. Не рекомендуем выбирать этот пункт для всех бронирований. </div>
+            </div>
+            <div class="och-form-group" data-bind="form-group">
+                <a class="och-hint och-pull-right visible-xs" href="#request-help" data-toggle="collapse"></a>
+                <span class="och-checkbox" data-bind="checkbox">
+                    <input type="checkbox" name="request" <%#is_request%> checked<%/is_request%>>
+                </span> Присылать мне карту мест для выбора <a class="och-hint hidden-xs" href="#request-help" data-toggle="collapse"></a>
+                <div class="collapse och-well" id="request-help"> После начала регистрации вы получите карту мест (если выбор места доступен). У вас будет 10 минут, чтобы на нее ответить, затем система автоматически выберет место в соответствии с вашими приоритетами. Обратите внимание, что изменения не применяются к регистрациям, которые находятся в процессе. </div>
+            </div>
+            <div class="och-form-group" data-bind="form-group">
+                <span class="och-checkbox" data-bind="checkbox">
+                    <input type="checkbox" name="apply_threads">
+                </span> Применить к существующим бронированиям </div>
+        </div>
+        <div class="och-col-sm-4 och-text-right">
+            <div class="och-form-group" data-bind="form-group">
+                <button class="och-btn och-btn-primary hidden-xs" type="submit"> Сохранить </button>
+                <button class="och-btn och-btn-danger hidden-xs" type="reset"> Сбросить </button>
+                <button class="och-btn och-btn-primary och-btn-block visible-xs" type="submit"> Сохранить </button>
+                <div class="och-space visible-xs"></div>
+                <button class="och-btn och-btn-danger och-btn-block visible-xs" type="reset"> Сбросить </button>
+            </div>
+        </div>
+    </div>
+    <div class="och-strategies">
+        <p class="och-bold">Изменить стратегии выбора места в зависимости от количества пассажиров</p>
+        <%#passengers%>
+        <div class="och-row och-title">
+            <div class="och-col-sm-2 och-col-xs-6 och-nobr">
+                <%#i18n%>passengers <%num%><%/i18n%>
+            </div>
+            <div class="och-col-sm-9 hidden-xs">
+                <ul class="och-list-inline och-counter-reset">
+                <%#list_strategies%>
+                <li>
+                    <span class="och-tag">
+                        <span class="och-badge och-counter"></span>
+                        <%name%>
+                    </span>
+                </li>
+                <li class="och-hidden-if-last">
+                    <i class="och-icon och-icon-wide-arrow"></i>
+                </li>
+                <%/list_strategies%>
+                </ul>
+            </div>
+            <div class="och-col-xs-6 visible-xs och-nobr och-text-right">
+                <a data-bind="btn-settings" data-index="<%num%>">
+                    <i class="och-icon och-icon-edit"></i> изменить </a>
+            </div>
+            <div class="och-col-sm-1 hidden-xs">
+                <div class="och-pull-right">
+                    <button class="och-btn och-btn-clear" data-index="<%num%>" type="button" data-bind="btn-settings">
+                        <i class="och-icon och-icon-edit"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="obj-seatmap_strategies subcomponent collapse<%#open%> in<%/open%>" data-bind="psg-<%num%>" data-uri="<%uri%>strategies/<%num%>/" data-class="seatmap_strategies">
+        </div>
+        <%/passengers%>
+    </div>
+    </form></script><script type="text/icon-svg" id="icon-plus"><svg viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M23.5,12 C23.5,18.352 18.352,23.5 12,23.5 C5.649,23.5 0.5,18.352 0.5,12 C0.5,5.649 5.649,0.5 12,0.5 C18.352,0.5 23.5,5.649 23.5,12 Z" class="och-Stroke-1"></path>
+        <path d="M12,7 L12,17"></path>
+        <path d="M17,12 L7,12"></path>
+    </svg></script><script type="text/icon-svg" id="icon-plus-light"><svg viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M12,7 L12,17"></path>
+        <path d="M17,12 L7,12"></path>
+    </svg></script><script type="text/icon-svg" id="icon-refresh"><svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"  xml:space="preserve">
+    <g style="fill:none">
+        <path d="M1.8,14.8c-0.9-3.5,0-7.4,2.7-10.2c4.1-4.1,10.8-4.1,14.9,0"/>
+        <path d="M22.2,9.3c0.9,3.5,0,7.4-2.7,10.2c-4.1,4.1-10.8,4.1-14.9,0"/>
+        <polyline points="20.9,0.5 20.8,6.1 15.2,5.9"/>
+        <polyline points="3,23.5 3.4,17.9 8.9,18.3"/>
+        <line x1="19.5" y1="4.6" x2="20.3" y2="5.5"/>
+        <line x1="4.5" y1="19.5" x2="3.6" y2="18.6"/>
+    </g>
+    </svg></script><script type="text/icon-svg" id="icon-user"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -1 27 27">
+        <circle class="och-st0" cx="12" cy="12" r="11.5"/><circle class="och-st0" cx="12" cy="9.2" r="3.6"/><path class="och-st0" d="M4.9 20.7c0-2.6 2.2-4.8 7.1-4.8s7.1 2.1 7.1 4.8"/>
+    </svg></script><script type="text/icon-svg" id="icon-info"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -1 27 27">
+    <circle class="och-st0" cx="12" cy="12" r="11.5"/>
+    <path class="och-fill och-nostroke" d="M13.6,17.1l-0.1,0.5c-0.5,0.2-0.9,0.3-1.2,0.4c-0.3,0.1-0.5,0.1-0.8,0.1c-0.4,0-0.8-0.1-1-0.3c-0.2-0.2-0.3-0.5-0.3-0.8
+        c0-0.1,0-0.3,0-0.4c0-0.1,0.1-0.3,0.1-0.5l0.8-3.4c0-0.2,0.1-0.4,0.1-0.6c0-0.2,0.1-0.4,0.1-0.5c0-0.3,0-0.5-0.1-0.6
+        c-0.1-0.1-0.3-0.1-0.6-0.1c-0.1,0-0.3,0-0.5,0.1c-0.2,0-0.3,0.1-0.4,0.1l0.1-0.5c0.4-0.2,0.8-0.3,1.1-0.4c0.3-0.1,0.6-0.1,0.8-0.1
+        c0.4,0,0.8,0.1,0.9,0.3c0.2,0.2,0.3,0.5,0.3,0.8c0,0.1,0,0.2,0,0.4c0,0.2,0,0.3-0.1,0.5L12,15.2c0,0.2-0.1,0.4-0.1,0.6
+        c0,0.2-0.1,0.4-0.1,0.5c0,0.3,0.1,0.5,0.2,0.6c0.1,0.1,0.4,0.2,0.7,0.2c0.1,0,0.3,0,0.4,0C13.4,17.1,13.5,17.1,13.6,17.1z
+         M14.2,6.7c0,0.3-0.1,0.6-0.3,0.8c-0.2,0.2-0.4,0.3-0.7,0.3c-0.3,0-0.5-0.1-0.7-0.3c-0.2-0.2-0.3-0.5-0.3-0.8
+        c0-0.3,0.1-0.5,0.3-0.8c0.2-0.2,0.4-0.3,0.7-0.3c0.3,0,0.5,0.1,0.8,0.3C14.1,6.2,14.2,6.4,14.2,6.7z"/>
+    </svg></script><script type="text/icon-svg" id="icon-flag-ru"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 0 25 24">
+        <path fill="#FFFFFF" stroke="none" d="M0 3h24v18h-24v-18z"/>
+        <path fill="#0039A6" stroke="none" d="M0 9h24v12h-24v-12z"/>
+        <path fill="#D52B1E" stroke="none" d="M0 15h24v6h-24v-6z"/>
+        <path d="M0 3h24v18h-24v-6z"/>
+    </svg></script><script type="text/icon-svg" id="icon-flag-en"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 0 25 24">
+    <defs>
+        <clipPath id="clip-path"><rect fill="non" y="3" width="24" height="18"/></clipPath>
+    </defs>
+    <g style="clip-path:url(#clip-path)">
+        <path fill="#006" stroke="none" d="M-6,3H30V21H-6Z"/>
+        <path fill="#fff" stroke="none" d="M-6,3V5L26,21h4V19L-2,3ZM30,3V5L-2,21H-6V19L26,3Z"/>
+        <path fill="#fff" stroke="none" d="M9,3V21h6V3ZM-6,9v6H30V9Z"/>
+        <path fill="#c00" stroke="none" d="M-6,10.2v3.6H30V10.2ZM10.2,3V21h3.6V3ZM-6,21,6,15H8.68l-12,6ZM-6,3,6,9H3.32L-6,4.34ZM15.32,9l12-6H30L18,9H15.32ZM30,21,18,15h2.68L30,19.66Z"/>
+    </g>
+    <path d="M0 3h24v18h-24v-6z"/>
+    </svg></script><script type="text/icon-svg" id="icon-order"><svg viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <polyline  stroke-linejoin="round" points="-8e-05 15.8552 3.34552 19.2 6.70552 15.8392"></polyline>
+        <path d="M3.34288,11.84504 L3.34288,19.19944"  stroke-linejoin="round"></path>
+        <polyline  stroke-linejoin="round" points="6.70536 3.35368 3.35976 0.00888 -0.00024 3.36968"></polyline>
+        <path d="M3.3628,7.36384 L3.3628,0.00944"  stroke-linejoin="round"></path>
+        <path d="M10.03896,-0.00024 L19.16296,-0.00024" ></path>
+        <path d="M10.03896,6.40288 L19.16296,6.40288" ></path>
+        <path d="M10.03896,12.806 L19.16296,12.806" ></path>
+        <path d="M10.03896,19.19976 L19.16296,19.19976" ></path>
+    </svg></script><script type="text/icon-svg" id="icon-eye"><svg viewBox="0 -5 31 30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <path d="M29,10 C27.3582512,13.4 22.9633378,19.7983333 14.5,20 C6.03750802,19.7983333 1.64174882,13.4 0,10 C1.64174882,6.60083333 6.03750802,0.201666667 14.5,0 C22.9633378,0.201666667 27.3582512,6.60083333 29,10 Z"></path>
+        <path d="M18,9.99957578 C18,12.2089299 16.2089299,14 14.0004242,14 C11.7910701,14 10,12.2089299 10,9.99957578 C10,7.79022166 11.7910701,6 14.0004242,6 C16.2089299,6 18,7.79022166 18,9.99957578 Z"></path>
+    </svg></script><script type="text/icon-svg" id="icon-plane-front"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 29" >
+    <path d="M0.5,28.5h11.4c1.7,0,3.2,0,4.8,0c1.4,0,2.8,0,4,0c5.4,0,9.2-0.2,10.7-2c0.5-0.6-1.3-6.9-4.6-9.2
+        c-3.7-2.7-9.1-4.7-15-4.7H0.5L0.5,28.5z"/>
+    <path fill="#fff" d="M26.4,19.2H14.7c-0.3,0-0.7-0.4-0.7-1c0-0.5,0.3-1,0.7-1h11.7c0.3,0,0.7,0.4,0.7,1
+        C27,18.8,26.7,19.2,26.4,19.2z"/>
+</svg></script><script type="text/icon-svg" id="icon-plane-mid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 29">
+    <path d="M41.5,28.5h-41v-16h41V28.5z"/>
+    <path fill="#fff" d="M38.7,23.2c0.4,0,0.7-0.3,0.7-0.7c0-0.4-0.3-0.7-0.6-0.8l-25.6-3L8,15.2c-0.1-0.1-0.3-0.1-0.4-0.1H4.5
+        c-0.3,0-0.5,0.1-0.6,0.3s-0.1,0.5,0,0.7L7,22.7c0.1,0.3,0.4,0.4,0.7,0.4h16.1L38.7,23.2z"/>
+</svg></script><script type="text/icon-svg" id="icon-plane-rear"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 29">
+    <path d="M37.4,12.5H22.6L10.2,1.3c-0.3-0.2-0.7-0.5-1-0.5l-7-0.3c-0.6,0-1.1,0.2-1.4,0.8C0.4,1.8,0.4,2.5,0.7,3.1
+        l6.4,13.7l1.3,2.8c2.1,4.4,15,9,29.1,9C37.5,28.5,37.4,15.7,37.4,12.5z"/>
+    <path fill="#fff" d="M10.8,16.4l-9.6-1.1c-0.3-0.1-0.6-0.4-0.6-0.8s0.3-0.7,0.7-0.7l8.2-0.1h9.8c0.3,0,0.6,0.2,0.7,0.5l0.9,2.4
+        c0.1,0.2,0.1,0.5-0.1,0.7s-0.4,0.3-0.6,0.3h-0.1L10.8,16.4z"/>
+</svg></script><script type="text/icon-svg" id="icon-boarding"><svg viewBox="0 -2 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M9.1084,21.6604 C9.8084,22.7654 11.0414,23.5004 12.4464,23.5004 L19.5524,23.5004 C21.7324,23.5004 23.4994,21.7324 23.4994,19.5534 L23.4994,7.4474 C23.4994,5.2674 21.7324,3.5004 19.5524,3.5004 L15.1244,3.5004" class="och-Stroke-1"></path>
+        <path d="M8.603,21.7932 L15.466,19.9542 C17.572,19.3902 18.822,17.2252 18.257,15.1192 L15.124,3.4262 C14.56,1.3212 12.395,0.0712 10.29,0.6352 L3.427,2.4742 C1.321,3.0392 0.071,5.2032 0.636,7.3092 L3.769,19.0022 C4.333,21.1072 6.498,22.3572 8.603,21.7932 Z" class="och-Stroke-3"></path>
+    </svg></script><script type="text/icon-svg" id="icon-passengers"><svg viewBox="0 -2 28 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M23.5004,19.4995 L10.5004,19.4995 C8.8434,19.4995 7.5004,18.1565 7.5004,16.4995 L7.5004,3.4995 C7.5004,1.8435 8.8434,0.4995 10.5004,0.4995 L23.5004,0.4995 C25.1564,0.4995 26.5004,1.8435 26.5004,3.4995 L26.5004,16.4995 C26.5004,18.1565 25.1564,19.4995 23.5004,19.4995 Z" class="och-Stroke-1"></path>
+        <path d="M17.5727,19.4966 L6.6897,22.4126 C5.3027,22.7846 3.8767,21.9616 3.5057,20.5746 L0.5897,9.6916 C0.2177,8.3046 1.0407,6.8796 2.4277,6.5076 L7.4997,5.1486" class="och-Stroke-3"></path>
+        <path d="M11,15.6714 L11,14.7124 C11,13.3964 12.067,12.3284 13.384,12.3284 L20.616,12.3284 C21.932,12.3284 23,13.3964 23,14.7124 L23,15.6714" class="och-Stroke-5"></path>
+        <path d="M19.979,7.3281 C19.979,8.9851 18.636,10.3281 16.979,10.3281 C15.322,10.3281 13.979,8.9851 13.979,7.3281 C13.979,5.6711 15.322,4.3281 16.979,4.3281 C18.636,4.3281 19.979,5.6711 19.979,7.3281 Z" class="och-Stroke-7"></path>
+    </svg></script><script type="text/icon-svg" id="icon-seats"><svg viewBox="0 0 22 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M18.0463,23.5 L1.4843,23.5 L0.947250931,20.0813843 L0.947250931,20.0813843 C0.775830407,18.9901974 1.52144835,17.9666519 2.61263522,17.7952314 C2.71530988,17.7791017 2.81908565,17.771 2.92301954,17.771 L11.9423,17.771 L14.9093,5.191 L19.8763,5.191 L18.0463,23.5 Z" class="och-Stroke-1"></path>
+        <path d="M20.5873,0.5 L17.4735055,0.5 L17.4735055,0.5 C16.5892684,0.5 15.8099771,1.08065211 15.557062,1.92794731 L15.1293,3.361 L20.1823,3.361 L20.5873,0.5 Z" class="och-Stroke-3" stroke-linecap="round"></path>
+    </svg></script><script type="text/icon-svg" id="icon-edit"><svg viewBox="-1 -3 21 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M17.5184609,5.42825217 L5.55511687,17.3915962 L5.55511687,17.3915962 C5.18004412,17.7666689 4.67133629,17.9773826 4.14090331,17.9773826 L1.39106957,17.9773826 L1.39106957,17.9773826 C0.838784815,17.9773826 0.391069565,17.5296674 0.391069565,16.9773826 L0.391069565,14.2275123 L0.391069565,14.2275123 C0.391069565,13.697101 0.601766125,13.188412 0.976811907,12.8133429 L12.9402,0.849208696" class="och-Stroke-1"></path>
+        <path d="M17.5184609,5.42825217 C18.1296783,4.81703478 18.1296783,3.82546957 17.5184609,3.21425217 L15.1542,0.849208696 C14.5422,0.238773913 13.5522,0.238773913 12.9402,0.849208696" class="och-Stroke-3"></path>
+    </svg></script><script type="text/icon-svg" id="icon-time"><svg viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M23.5,12 C23.5,18.352 18.352,23.5 12,23.5 C5.649,23.5 0.5,18.352 0.5,12 C0.5,5.649 5.649,0.5 12,0.5 C18.352,0.5 23.5,5.649 23.5,12 Z" class="och-Stroke-1"></path>
+        <path d="M10.9668,5.8633 L10.9668,13.8633" class="och-Stroke-3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M15.0332,18.1367 L10.9672,13.8637" class="och-Stroke-5" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg></script><script type="text/icon-svg" id="icon-remove"><svg viewBox="0 0 21 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M18.5,4.5503 L18.5,21.5003 C18.5,23.1573 17.157,24.5003 15.5,24.5003 L5.5,24.5003 C3.843,24.5003 2.5,23.1573 2.5,21.5003 L2.5,4.5503" class="och-Stroke-1"></path>
+        <path d="M0.5,4.5655 L20.5,4.4345" class="och-Stroke-3"></path>
+        <path d="M6.5,4.4737 L6.5,1.5447 C6.5,0.9677 6.968,0.4997 7.544,0.4997 L13.456,0.4997 C14.032,0.4997 14.5,0.9677 14.5,1.5447 L14.5,4.4737" class="och-Stroke-5"></path>
+        <path d="M6.5,9.5 L6.5,19.5" class="och-Stroke-7"></path>
+        <path d="M10.5,9.5 L10.5,19.5" class="och-Stroke-9"></path>
+        <path d="M14.5,9.5 L14.5,19.5" class="och-Stroke-11"></path>
+    </svg></script><script type="text/icon-svg" id="icon-arrow-down"><svg viewBox="0 0 10 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <polyline  points="0 0 5 5 10 0"></polyline>
+    </svg></script><script type="text/icon-svg" id="icon-wide-arrow"><svg viewBox="0 0 57 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M54.5,6 L0.5,6" id="Line-3"></path>
+        <polyline id="Page-1" points="50 0.122691943 55.8932908 6.06134597 50 12"></polyline>
+    </svg></script><script type="text/icon-svg" id="icon-check"><svg viewBox="-5 -5 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.6668,7 L11.6668,0"></path>
+        <path d="M-0.0002,2.333 L4.6668,7"></path>
+    </svg></script><script type="text/icon-svg" id="icon-cross"><svg viewBox="-5 -5 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8,-2e-05 L0,7.99998"></path>
+        <path d="M8,7.99998 L0,-2e-05"></path>
+    </svg></script><script type="text/icon-svg" id="icon-ym"><svg viewBox="0 0 54 17" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M4.769 9.387h-.71c-1.117 0-2.2-.802-2.2-2.806 0-2.089 1.016-2.94 2.047-2.94h.863v5.746zm1.116-6.816h-1.928c-1.894 0-3.5 1.42-3.5 4.177 0 1.654.778 2.873 2.164 3.475l-2.587 4.61c-.085.151 0 .268.135.268h1.2c.102 0 .17-.033.203-.117l2.351-4.527h.846v4.527c0 .05.05.117.118.117h1.049c.101 0 .135-.05.135-.134v-12.229c0-.116-.068-.167-.186-.167z" fill="#F00"/><path d="M12.186 6.857h-1.048c-.085 0-.135.067-.135.117v3.19h-1.946v-3.19c0-.083-.033-.117-.117-.117h-1.05c-.083 0-.134.05-.134.117v8.12c0 .083.034.133.118.133h1.066c.067 0 .117-.05.117-.134v-3.876h1.946v3.876c0 .084.05.134.135.134h1.048c.085 0 .119-.067.119-.134v-8.12a.115.115 0 0 0-.119-.116m23.995 7.75l-.135-.568-.084-.066c-.084 0-.541.183-1.2.183-1.286 0-1.912-1.22-1.912-3.157 0-1.705.525-3.392 1.404-3.392.237 0 .524.067.98.485l.136.067c.05 0 .101-.034.152-.118l.457-.734a.271.271 0 0 0 .05-.151c0-.067-.067-.117-.169-.167-.693-.35-1.166-.418-1.572-.418-1.59 0-2.825 1.872-2.825 4.795 0 2.522 1.184 3.976 2.875 3.976.711 0 1.471-.334 1.776-.551a.166.166 0 0 0 .067-.184m-7.398-3.975l2.029-3.658c.034-.05.017-.117-.051-.117h-.998c-.287 0-.389.1-.49.317l-1.522 3.124c-.084.184-.17.3-.254.352v-3.676c0-.067-.033-.117-.101-.117h-1.1c-.05 0-.1.05-.1.117v8.136c0 .05.033.117.1.117h1.1c.068 0 .101-.05.101-.117v-4.194a.37.37 0 0 1 .119.151l1.928 3.909c.101.2.253.25.474.25h1.082c.067 0 .084-.066.05-.116l-2.367-4.478zm-11.441 3.542h-2.452c.862-1.453 1.2-3.09 1.32-5.095.033-.434.05-.886.05-1.17h1.082v6.265zm1.827 0h-.204c-.253 0-.321-.1-.321-.3v-6.9c0-.083-.034-.117-.102-.117h-3.382c-.084 0-.135.05-.135.117v.601c0 2.022-.118 4.627-1.2 6.6h-.373c-.101 0-.135.05-.135.133v2.439c0 .084.068.117.118.117h.812c.186 0 .253-.133.253-.251v-1.387h3.62v1.521c0 .067.05.117.118.117h.863c.1 0 .202-.084.202-.251v-2.305c0-.083-.05-.134-.134-.134zm3.186-3.977c-.39 0-.998.066-.998.066s0-.25.034-.518c.152-1.42.507-2.138 1.099-2.138.541 0 .88.735.964 2.021.017.268.017.569.017.569h-1.116zm.186-3.626c-1.826 0-2.639 2.272-2.639 4.745 0 2.523 1.15 4.025 2.842 4.025a3.81 3.81 0 0 0 1.927-.55c.068-.034.085-.084.068-.15l-.135-.569c-.017-.066-.051-.1-.136-.1-.067 0-.558.184-1.25.184-1.303 0-1.912-1.12-1.912-2.59v-.395s.66.078 1.049.078h2.469v-.702c0-2.589-.931-3.976-2.283-3.976z" fill="#000"/><path d="M53.945 6.286h-10.794c-.633 0-1.151.51-1.151 1.134v6.859c0 .623.518 1.133 1.151 1.133h10.794v-9.126z" fill="#FAC413"/><path d="M42 14.279v-6.859c0-.624.518-1.134 1.151-1.134h8.899v5.474l-8.777 2.812-1.273-.292z" fill="#D6AB05"/><path d="M50.26 0v10.016l-7.271 4.877-.989-.556v-6.664c0-.869.074-1.42 1.9-2.763 1.514-1.11 6.36-4.91 6.36-4.91" fill="#FAC413"/><path d="M47.173 6.206c.396-.465.975-.63 1.293-.367.317.263.254.852-.142 1.317-.396.465-.975.629-1.292.366-.318-.262-.255-.852.141-1.316" fill="#030303"/></g></svg></script><script type="text/icon-svg" id="icon-visa-mc"><svg viewBox="0 0 62 16" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="-233.561%" y1="26.058%" x2="372.942%" y2="23.566%" id="a"><stop stop-color="#191E5F" offset="0%"/><stop stop-color="#142787" stop-opacity=".818" offset="100%"/></linearGradient><linearGradient x1="-182.481%" y1="27.757%" x2="225.539%" y2="24.759%" id="b"><stop stop-color="#191E5F" offset="0%"/><stop stop-color="#142787" stop-opacity=".818" offset="100%"/></linearGradient><linearGradient x1="-230.002%" y1="26.836%" x2="110.954%" y2="23.739%" id="c"><stop stop-color="#191E5F" offset="0%"/><stop stop-color="#142787" stop-opacity=".818" offset="100%"/></linearGradient><linearGradient x1="-13.859%" y1="26.026%" x2="265.571%" y2="23.531%" id="d"><stop stop-color="#191E5F" offset="0%"/><stop stop-color="#142787" stop-opacity=".818" offset="100%"/></linearGradient><linearGradient x1="22.862%" y1="47.883%" x2="428.639%" y2="43.303%" id="e"><stop stop-color="#191E5F" offset="0%"/><stop stop-color="#142787" stop-opacity=".818" offset="100%"/></linearGradient><linearGradient x1="-156.382%" y1="335.864%" x2="3998.32%" y2="267.357%" id="f"><stop stop-color="#191E5F" offset="0%"/><stop stop-color="#142787" stop-opacity=".818" offset="100%"/></linearGradient></defs><g fill="none"><path fill="url(#a)" d="M11.514 3.299h2.315l-1.448 8.767h-2.314z"/><path d="M20.789.382a5.813 5.813 0 0 0-2.075-.368c-2.288 0-3.899 1.19-3.913 2.893-.013 1.26 1.15 1.963 2.029 2.382.901.43 1.204.704 1.2 1.088-.006.587-.72.856-1.385.856-.927 0-1.42-.133-2.18-.46l-.298-.14-.325 1.963c.54.244 1.54.456 2.579.467 2.433 0 4.013-1.175 4.031-2.995.009-.997-.608-1.756-1.943-2.382-.81-.405-1.305-.676-1.3-1.086 0-.365.42-.755 1.326-.755a4.156 4.156 0 0 1 1.733.336l.207.102.314-1.9" fill="url(#b)" transform="translate(0 3.2)"/><path d="M26.725 3.375h-1.789c-.554 0-.968.156-1.212.727l-3.438 8.034h2.43l.488-1.317 2.965.003c.07.307.282 1.314.282 1.314h2.148l-1.874-8.761zm-2.854 5.65l.922-2.45.307-.837.156.756.536 2.531h-1.921z" fill="url(#c)"/><path d="M8.137 3.373l-2.267 5.979-.241-1.215c-.422-1.4-1.737-2.918-3.207-3.678l2.073 7.667 2.45-.003 3.644-8.75h-2.452" fill="url(#d)"/><path d="M3.768 3.368h-3.733l-.03.182c2.904.726 4.826 2.48 5.624 4.587l-.812-4.029c-.14-.555-.547-.72-1.05-.74" fill="url(#e)"/><path d="M2.514 4.792c-.048-.184-.098-.294-.281-.396l.682.317" fill="url(#f)"/><path d="M61.283 7.76c.001 4.207-3.503 7.618-7.827 7.619-4.324 0-7.83-3.408-7.831-7.615v-.004c-.001-4.207 3.503-7.618 7.827-7.619 4.324-.001 7.83 3.408 7.83 7.615v.004z" fill="#F90"/><path d="M42.901.143c-4.298.027-7.778 3.429-7.778 7.617 0 4.204 3.507 7.617 7.829 7.617a7.922 7.922 0 0 0 5.268-1.985h.001c.285-.253.55-.525.795-.816h-1.604a7.45 7.45 0 0 1-.584-.784h2.767c.168-.262.32-.534.455-.816h-3.679a7.394 7.394 0 0 1-.327-.8h4.334a7.411 7.411 0 0 0 .222-4.047h-4.786c.06-.27.135-.538.224-.8h4.335a7.5 7.5 0 0 0-.338-.816h-3.664a7.25 7.25 0 0 1 .45-.8h2.764a7.644 7.644 0 0 0-.608-.816h-1.541c.238-.272.5-.53.785-.769a7.923 7.923 0 0 0-5.27-1.985h-.05z" fill="#C00"/><path d="M60.497 11.742l.125.032.094.091a.244.244 0 0 1-.093.337.263.263 0 0 1-.252 0 .245.245 0 0 1-.093-.337.232.232 0 0 1 .095-.091.268.268 0 0 1 .124-.032m0 .04a.22.22 0 0 0-.104.027.191.191 0 0 0-.078.077.2.2 0 0 0 .077.28.218.218 0 0 0 .21 0 .204.204 0 0 0-.002-.357.217.217 0 0 0-.103-.026m-.11.341v-.265h.093l.07.008a.067.067 0 0 1 .034.026.069.069 0 0 1-.009.09.085.085 0 0 1-.056.023.08.08 0 0 1 .023.014l.04.053.033.051h-.053l-.024-.041a.215.215 0 0 0-.046-.062.059.059 0 0 0-.035-.009h-.026v.113h-.044m.043-.15h.054a.105.105 0 0 0 .052-.01.036.036 0 0 0 .014-.03.034.034 0 0 0-.007-.021.041.041 0 0 0-.019-.014.14.14 0 0 0-.044-.005h-.05v.08" fill="#FCB340"/><path d="M36.669 9.742l.507-2.912.075 2.912h.574l1.071-2.912-.474 2.912h.853l.657-3.862h-1.32l-.821 2.37-.043-2.37h-1.216l-.667 3.862h.804zm4.513-3.216c-.571 0-1.01.179-1.01.179l-.12.698s.361-.143.908-.143c.31 0 .537.034.537.28l-.027.204-.359-.02c-.72 0-1.478.3-1.478 1.202 0 .71.497.874.805.874.588 0 .842-.372.855-.373l-.027.31h.734l.327-2.233c0-.948-.85-.978-1.145-.978zm.179 1.818c.016.137-.088.776-.59.776-.259 0-.326-.192-.326-.306 0-.222.124-.488.735-.488l.18.018zm1.746 1.44c.188 0 1.261.046 1.261-1.032 0-1.007-.993-.808-.993-1.213 0-.201.162-.265.458-.265l.57.037.104-.717s-.292-.063-.769-.063c-.616 0-1.242.24-1.242 1.059 0 .928 1.043.835 1.043 1.226 0 .261-.291.282-.516.282-.389 0-.739-.13-.74-.123l-.111.709c.02.006.236.1.935.1zm2.66-.085l.104-.69-.214.025c-.29 0-.323-.15-.304-.261l.234-1.407h.441l.107-.762h-.416l.085-.475h-.834c-.018.018-.492 2.667-.492 2.99 0 .477.276.69.664.687.304-.003.541-.085.625-.107zm10.744.048c.242-1.342.287-2.432.866-2.233.102-.52.2-.72.31-.94l-.16-.01c-.374 0-.65.495-.65.495l.074-.455h-.776l-.52 3.143h.856zm3.983-.485l.124.032a.243.243 0 0 1 .002.428.263.263 0 0 1-.252 0 .233.233 0 0 1-.094-.091.241.241 0 0 1 .095-.337.265.265 0 0 1 .125-.032zm0 .04a.22.22 0 0 0-.104.028.203.203 0 0 0-.001.357.22.22 0 0 0 .21 0 .203.203 0 0 0-.002-.357.217.217 0 0 0-.103-.027zm-.11.343v-.265h.093l.07.007a.067.067 0 0 1 .033.026.066.066 0 0 1 .013.038.07.07 0 0 1-.021.051.084.084 0 0 1-.056.024.1.1 0 0 1 .023.014l.04.053.033.052h-.054l-.024-.042a.215.215 0 0 0-.046-.062.058.058 0 0 0-.035-.009h-.026v.113h-.044zm.043-.15h.053l.052-.01a.036.036 0 0 0 .015-.03.034.034 0 0 0-.007-.02.04.04 0 0 0-.019-.015.142.142 0 0 0-.044-.004h-.05v.08zm-5.732-2.97c-.572 0-1.01.18-1.01.18l-.12.698s.361-.143.908-.143c.31 0 .537.034.537.28l-.028.204-.358-.02c-.72 0-1.478.3-1.478 1.202 0 .71.497.874.805.874.588 0 .841-.372.855-.373l-.028.31h.734l.328-2.233c0-.948-.85-.978-1.145-.978zm.179 1.82c.016.136-.088.775-.59.775-.26 0-.326-.192-.326-.306 0-.222.124-.488.734-.488l.182.018zm-5.362 1.402c.243-1.342.288-2.432.867-2.233.101-.52.199-.72.31-.94l-.161-.01c-.374 0-.65.495-.65.495l.074-.455h-.776l-.52 3.143h.856zm10.164-3.864l-.18 1.086s-.313-.422-.804-.422c-.764 0-1.4.896-1.4 1.925 0 .665.339 1.316 1.033 1.316.5 0 .776-.339.776-.339l-.037.29h.811l.637-3.857-.836.001zm-.386 2.117c0 .428-.218 1-.67 1-.3 0-.44-.245-.44-.63 0-.628.29-1.043.656-1.043.3 0 .454.2.454.673zm-6.517 1.699l.149-.884s-.41.2-.69.2c-.591 0-.828-.44-.828-.912 0-.957.508-1.484 1.075-1.484.424 0 .765.232.765.232l.136-.859s-.505-.199-.938-.199c-.963 0-1.899.812-1.899 2.338 0 1.011.506 1.679 1.5 1.679.282 0 .73-.111.73-.111zm-6.74-1.314c0 1.146.777 1.418 1.44 1.418.61 0 .88-.133.88-.133l.146-.782s-.465.2-.885.2c-.895 0-.738-.65-.738-.65h1.694s.11-.525.11-.74c0-.534-.274-1.185-1.19-1.185-.837 0-1.458.879-1.458 1.872zm1.46-1.146c.471 0 .385.515.385.556h-.926c0-.053.088-.556.542-.556z" fill="#FFF"/></g></svg></script><script type="text/icon-svg" id="icon-paypal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 124 33"><path fill="#253B80" d="M46.211 6.749h-6.839c-.468 0-.866.34-.939.802l-2.766 17.537c-.055.346.213.658.564.658h3.265c.468 0 .866-.34.939-.803l.746-4.73c.072-.463.471-.803.938-.803h2.165c4.505 0 7.105-2.18 7.784-6.5.306-1.89.013-3.375-.872-4.415-.972-1.142-2.696-1.746-4.985-1.746zm.789 6.405c-.374 2.454-2.249 2.454-4.062 2.454h-1.032l.724-4.583c.043-.277.283-.481.563-.481h.473c1.235 0 2.4 0 3.002.704.359.42.469 1.044.332 1.906zM66.654 13.075h-3.275c-.279 0-.52.204-.563.481l-.145.916-.229-.332c-.709-1.029-2.29-1.373-3.868-1.373-3.619 0-6.71 2.741-7.312 6.586-.313 1.918.132 3.752 1.22 5.031.998 1.176 2.426 1.666 4.125 1.666 2.916 0 4.533-1.875 4.533-1.875l-.146.91c-.055.348.213.66.562.66h2.95c.469 0 .865-.34.939-.803l1.77-11.209c.056-.345-.211-.658-.561-.658zm-4.565 6.374c-.316 1.871-1.801 3.127-3.695 3.127-.951 0-1.711-.305-2.199-.883-.484-.574-.668-1.391-.514-2.301.295-1.855 1.805-3.152 3.67-3.152.93 0 1.686.309 2.184.892.499.589.697 1.411.554 2.317zM84.096 13.075h-3.291c-.314 0-.609.156-.787.417l-4.539 6.686-1.924-6.425c-.121-.402-.492-.678-.912-.678h-3.234c-.393 0-.666.384-.541.754l3.625 10.638-3.408 4.811c-.268.379.002.9.465.9h3.287c.312 0 .604-.152.781-.408l10.946-15.8c.262-.378-.007-.895-.468-.895z"/><path fill="#179BD7" d="M94.992 6.749h-6.84c-.467 0-.865.34-.938.802l-2.766 17.537c-.055.346.213.658.562.658h3.51c.326 0 .605-.238.656-.562l.785-4.971c.072-.463.471-.803.938-.803h2.164c4.506 0 7.105-2.18 7.785-6.5.307-1.89.012-3.375-.873-4.415-.971-1.142-2.694-1.746-4.983-1.746zm.789 6.405c-.373 2.454-2.248 2.454-4.062 2.454h-1.031l.725-4.583c.043-.277.281-.481.562-.481h.473c1.234 0 2.4 0 3.002.704.359.42.468 1.044.331 1.906zM115.434 13.075h-3.273c-.281 0-.52.204-.562.481l-.145.916-.23-.332c-.709-1.029-2.289-1.373-3.867-1.373-3.619 0-6.709 2.741-7.311 6.586-.312 1.918.131 3.752 1.219 5.031 1 1.176 2.426 1.666 4.125 1.666 2.916 0 4.533-1.875 4.533-1.875l-.146.91c-.055.348.213.66.564.66h2.949c.467 0 .865-.34.938-.803l1.771-11.209c.054-.345-.214-.658-.565-.658zm-4.565 6.374c-.314 1.871-1.801 3.127-3.695 3.127-.949 0-1.711-.305-2.199-.883-.484-.574-.666-1.391-.514-2.301.297-1.855 1.805-3.152 3.67-3.152.93 0 1.686.309 2.184.892.501.589.699 1.411.554 2.317zM119.295 7.23l-2.807 17.858c-.055.346.213.658.562.658h2.822c.469 0 .867-.34.939-.803l2.768-17.536c.055-.346-.213-.659-.562-.659h-3.16c-.279.001-.519.205-.562.482z"/><path fill="#253B80" d="M7.266 29.154l.523-3.322-1.165-.027h-5.563l3.866-24.513c.012-.074.051-.143.108-.192.057-.049.13-.076.206-.076h9.38c3.114 0 5.263.648 6.385 1.927.526.6.861 1.227 1.023 1.917.17.724.173 1.589.007 2.644l-.012.077v.676l.526.298c.443.235.795.504 1.065.812.45.513.741 1.165.864 1.938.127.795.085 1.741-.123 2.812-.24 1.232-.628 2.305-1.152 3.183-.482.809-1.096 1.48-1.825 2-.696.494-1.523.869-2.458 1.109-.906.236-1.939.355-3.072.355h-.73c-.522 0-1.029.188-1.427.525-.399.344-.663.814-.744 1.328l-.055.299-.924 5.855-.042.215-.058.125-.096.035h-4.507z"/><path fill="#179BD7" d="M23.048 7.667l-.096.55c-1.237 6.351-5.469 8.545-10.874 8.545h-2.752c-.661 0-1.218.48-1.321 1.132l-1.409 8.936-.399 2.533c-.067.428.263.814.695.814h4.881c.578 0 1.069-.42 1.16-.99l.048-.248.919-5.832.059-.32c.09-.572.582-.992 1.16-.992h.73c4.729 0 8.431-1.92 9.513-7.476.452-2.321.218-4.259-.978-5.622-.362-.411-.811-.752-1.336-1.03z"/><path fill="#222D65" d="M21.754 7.151l-.584-.15-.619-.117c-.742-.12-1.555-.177-2.426-.177h-7.352c-.181 0-.353.041-.507.115-.339.163-.591.484-.652.877l-1.564 9.906-.045.289c.103-.652.66-1.132 1.321-1.132h2.752c5.405 0 9.637-2.195 10.874-8.545l.096-.55c-.313-.166-.652-.308-1.017-.429l-.277-.087z"/><path fill="#253B80" d="M9.614 7.699c.061-.393.313-.714.652-.876.155-.074.326-.115.507-.115h7.352c.871 0 1.684.057 2.426.177l.619.117.584.15.278.086c.365.121.704.264 1.017.429.368-2.347-.003-3.945-1.272-5.392-1.399-1.593-3.924-2.275-7.155-2.275h-9.38c-.66 0-1.223.48-1.325 1.133l-3.907 24.765c-.077.49.301.932.795.932h5.791l1.454-9.225 1.564-9.906z"/></svg></script><script type="text/icon-svg" id="text-example"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<text x="25" y="100" style="font-family: Open Sans, sans-serif; font-size: 14px; fill: #ddd" transform="rotate(-25,0,100)"> пример </text>
+</svg></script><script type="text/x-template" id="widget_full_checkin"><form class="och-container">
+    <div class="och-row">
+        <div class="och-col-sm-6">
+            <div class="och-card">
+                <div class="och-header">
+                    <span class="och-badge">1</span> Email </div>
+                <div class="och-content och-flights">
+                    <div class="och-form-group required" data-bind="form-group">
+                        <input class="och-form-control required" name="email" value="<%data.email%>" placeholder="email" type="email">
+                    </div>
+                </div>
+            </div>
+            <div class="och-card">
+                <div class="och-header">
+                    <span class="och-badge">2</span> Пассажиры </div>
+                <div class="och-content och-passengers" data-bind="passengers">
+                    <%#data.passengers%>
+                    <div class="obj-checkin_passenger subcomponent och-item" data-uri="<%uri%>"></div>
+                    <%/data.passengers%>
+                    <div class="och-item">
+                        <button class="och-btn och-btn-default och-btn-block" data-bind="btn-psg-add" type="button">
+                            <i class="och-icon och-icon-plus-light"></i> Новый пассажир </button>
+                    </div>
+                </div>
+            </div>
+            <div class="och-card">
+                <div class="och-header">
+                    <span class="och-badge">3</span> Перелеты </div>
+                <div class="och-content och-flights" data-bind="flights">
+                    <%#data.flights%>
+                    <div class="obj-flight subcomponent och-item" data-uri="<%uri%>"></div>
+                    <%/data.flights%>
+                    <div class="och-item">
+                        <button class="och-btn och-btn-default och-btn-block" data-bind="btn-add-flight" type="button">
+                            <i class="och-icon och-icon-plus-light"></i> Добавить перелет </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="och-col-sm-6 och-sticky">
+            <div class="och-card">
+                <div class="och-header">
+                    <span class="och-badge">4</span> Настройка выбора мест </div>
+                <div class="och-content">
+                    <div class="obj-seatmap_strategies subcomponent" data-uri="<%seatmap_strategies.uri%>"></div>
+                    <div class="och-item-space">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="och-btn och-btn-primary och-btn-block och-btn-lg"> Отправить регистрацию </button>
+        </div>
+    </div>
+</form></script><script type="text/x-template" id="flight" data-title="Перелет"><%^edit_mode%>
+    <div class="och-item och-item-space och-from-to">
+        <div class="och-row och-half-gap">
+            <div class="och-col-xs-3 och-bold">
+                <%data.marketing_carrier_code%>-<%data.flight_num%>
+            </div>
+            <div class="och-col-xs-3">
+                <%#data.departure_name%>
+                    <div class="och-city"><%data.departure_name%></div>
+                <%/data.departure_name%>
+                <%#data.departure_code%>
+                    <div class="och-airport"><%data.departure_code%></div>
+                <%/data.departure_code%>
+                <%^data.departure_code%>
+                <div class="och-city">Недоступно</div>
+                <%/data.departure_code%>
+            </div>
+            <div class="och-col-xs-2 och-arrow"><i class="och-icon och-icon-wide-arrow"></i></div>
+            <div class="och-col-xs-3">
+                <%#data.destination_name%>
+                    <div class="och-city"><%data.destination_name%></div>
+                <%/data.destination_name%>
+                <%#data.destination_code%>
+                    <div class="och-airport"><%data.destination_code%></div>
+                <%/data.destination_code%>
+                <%^data.destination_code%>
+                <div class="och-city">Недоступно</div>
+                <%/data.destination_code%>
+            </div>
+            <div class="och-col-xs-1">
+                <button class="och-btn-clear" data-bind="btn-edit" type="button">
+                    <i class="och-icon och-icon-edit"></i>
+                </button>
+            </div>
+        </div>
+        <div class="och-row och-half-gap">
+            <div class="och-col-xs-3 och-bold">
+                <%#date_format%><%data.departure_date%><%/date_format%>
+            </div>
+            <div class="och-col-xs-3">
+                <div class="och-time"><%data.departure_time%></div>
+            </div>
+            <div class="och-col-xs-2"></div>
+            <div class="och-col-xs-3">
+                <div class="och-time"><%data.arrival_time%></div>
+            </div>
+        </div>
+    </div>
+    <%/edit_mode%>
+    <%#edit_mode%>
+    <div class="och-item">
+        <%#first%>
+        <div class="och-form-group required" data-bind="form-group">
+            <div class="och-input-group required">
+                <input type="text" class="och-form-control required" name="booking_ref" value="<%data.booking_ref%>" placeholder="Номер бронирования">
+                <span class="och-hint" data-toggle="tooltip" title="Номер бронирования это 6-7 букв или цифр, он предоставляется после покупки билета">
+                </span>
+            </div>
+        </div>
+        <%/first%>
+        <div class="och-form-group required" data-bind="form-group">
+            <input type="text" class="och-form-control required" placeholder="Авиакомпания, например,  Aeroflot или SU" name="marketing_carrier_code" autocomplete="off"
+            data-value="<%data.marketing_carrier_code%>" value="<%data.marketing_carrier_name%><%^data.marketing_carrier_name%><%data.marketing_carrier_code%><%/data.marketing_carrier_name%>" data-ac="FlightChars">
+        </div>
+        <div class="och-form-group required" data-bind="form-group">
+            <input type="text" class="och-form-control required" name="flight_num" value="<%data.flight_num%>" placeholder="Номер рейса">
+        </div>
+        <div class="och-form-group required" data-bind="form-group">
+            <input type="date" class="och-form-control required" name="departure_date" value="<%data.departure_date%>" placeholder="Дата вылета">
+        </div>
+        <div class="och-form-group" data-bind="form-group">
+            <div class="och-row och-half-gap">
+                <div class="och-col-xs-6">
+                    <div class="och-form-group required" data-bind="form-group">
+                        <input type="time" data-type="time" step="60" class="och-form-control required" name="departure_time" value="<%data.departure_time%>" placeholder="Время вылета">
+                    </div>
+                </div>
+                <div class="och-col-xs-6">
+                    <div class="och-form-group" data-bind="form-group">
+                        <input type="time" data-type="time" step="60" class="och-form-control" name="arrival_time" value="<%data.arrival_time%>" placeholder="Время прилета">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="och-form-group required" data-bind="form-group">
+            <input type="text" class="och-form-control required" placeholder="Аэропорт вылета, например,  Domodedovo или DME или Moscow" name="departure_code" autocomplete="off"
+            data-value="<%data.departure_code%>" value="<%data.departure_code%><%#data.departure_name%>: <%/data.departure_name%><%data.departure_name%>" data-ac="ArrivalAirport">
+        </div>
+        <div class="och-form-group required" data-bind="form-group">
+            <input type="text" class="och-form-control required" placeholder="Аэропорт прилета, например,  Domodedovo или DME или Moscow" name="destination_code" autocomplete="off"
+            data-value="<%data.destination_code%>" value="<%data.destination_code%><%#data.destination_name%>: <%/data.destination_name%><%data.destination_name%>" data-ac="ArrivalAirport">
+        </div>
+        <button class="och-btn och-btn-danger och-btn-block" data-bind="btn-stop-edit" tabindex="-1" type="button"> Отменить редактирование перелета </button>
+        <button class="och-btn och-btn-primary och-btn-block" data-bind="save" tabindex="-1" type="button"> Сохранить </button>
+    </div>
+    <%/edit_mode%></script><script type="text/x-template" id="passenger" data-delete-confirmation="Вы действительно хотите удалить пассажира PSG?"><div class="och-content">
+    <%^edit_mode%>
+        <div class="och-item och-dark">
+            <div class="och-pull-right">
+                <a href="#" data-bind="btn-edit">Изменить</a>
+                &nbsp;&nbsp;
+                <a href="#" class="och-text-danger" data-bind="btn-delete">Удалить</a>
+            </div>
+            <div class="och-pull-left">
+                <a href="#" data-bind="btn-edit">
+                    <%data.first_name%>&nbsp;<%data.last_name%>
+                </a>
+            </div>
+        </div>
+        <div class="och-item">
+            <%#data.eticket%>
+            <div class="och-form-group">
+                <div class="och-input-holder">
+                    <span class="och-text-secondry"> Номер электронного билета:
+                    </span>
+                    <%data.eticket%>
+                </div>
+            </div>
+            <%/data.eticket%>
+    <%/edit_mode%>
+    <%#edit_mode%>
+        <div class="och-item">
+            <div class="och-form-group" data-bind="form-group">
+                <div class="och-btn-group och-btn-group-justified" data-toggle="buttons">
+                    <button class="och-btn och-btn-default" type="button">
+                        <input type="radio" name="gender" value="male" <%#is_male%> checked<%/is_male%>/> Мужской </button>
+                    <button class="och-btn och-btn-default" type="button">
+                        <input type="radio" name="gender" value="female" <%#is_female%> checked<%/is_female%>/> Женский </button>
+                </div>
+            </div>
+            <div class="och-form-group required" data-bind="form-group">
+                <input type="text" class="och-form-control required"
+                    name="eticket" value="<%data.eticket%>"
+                    placeholder="Номер электронного билета, например,  1234567890123">
+            </div>
+            <div class="och-form-group required" data-bind="form-group">
+                <input type="text" class="och-form-control required"
+                    name="first_name" value="<%data.first_name%>"
+                    placeholder="Имя, например,  Ivan">
+            </div>
+            <div class="och-form-group required" data-bind="form-group">
+                <input type="text" class="och-form-control required"
+                    name="last_name" value="<%data.last_name%>"
+                    placeholder="Фамилия, например,  Ivanov">
+            </div>
+            <div class="och-form-group" data-bind="form-group">
+                <input type="text" class="och-form-control"
+                    name="middle_name" value="<%data.middle_name%>"
+                    placeholder="Отчество, например,  Ivanovich">
+            </div>
+            <div class="och-form-group" data-bind="form-group">
+                <input type="date" class="och-form-control"
+                    placeholder="Дата рождения"
+                    name="date_of_birth" value="<%data.date_of_birth%>">
+            </div>
+            <div class="och-form-group" data-bind="form-group">
+                <input type="text" class="och-form-control"
+                    name="citizenship_id"
+                    data-value="<%data.citizenship_id%>" value="<%data.citizenship.country%><%^data.citizenship.country%><%data.citizenship_id%><%/data.citizenship.country%>"
+                    placeholder="Гражданство, например,  Russia или RU"
+                    autocomplete="off" data-ac="Citizenship">
+            </div>
+            <div class="och-form-group" data-bind="form-group">
+                <input type="text" class="och-form-control"
+                    name="residence_id"
+                    data-value="<%data.residence_id%>"
+                    value="<%data.residence.country%><%^data.residence.country%><%data.residence_id%><%/data.residence.country%>"
+                    placeholder="Страна проживания, например,  Russia или RU"
+                    autocomplete="off" data-ac="Citizenship">
+            </div>
+        </div>
+        <div class="och-item">
+    <%/edit_mode%>
+            <%#data.passports.length%>
+            <%#data.passports%>
+            <div class="och-form-group" data-bind="form-group">
+                <div class="obj-passenger_document subcomponent" data-uri="<%uri%>"></div>
+            </div>
+            <%/data.passports%>
+            <%/data.passports.length%>
+
+            <%#data.visas.length%>
+            <%#data.visas%>
+            <div class="och-form-group" data-bind="form-group">
+                <div class="obj-passenger_document subcomponent" data-uri="<%uri%>"></div>
+            </div>
+            <%/data.visas%>
+            <%/data.visas.length%>
+
+            <%#data.ffns.length%>
+            <%#data.ffns%>
+            <div class="och-form-group" data-bind="form-group">
+                <div class="obj-passenger_document subcomponent" data-uri="<%uri%>"></div>
+            </div>
+            <%/data.ffns%>
+            <%/data.ffns.length%>
+        </div>
+    <%#edit_mode%>
+        <div class="och-item">
+            <button type="submit" class="och-btn och-btn-primary och-btn-block"> Сохранить </button>
+            <button type="submit" class="och-btn och-btn-danger och-btn-block" data-bind="btn-stop-edit"> Отмена </button>
+        </div>
+    <%/edit_mode%>
+    </div></script><script type="text/x-template" id="passenger_document" data-delete-confirmation="Вы действительно хотите удалить документ DOC?"><%^edit_mode%>
+    <%#is_passport%>
+    <%^data.passport_number%>
+    <div class="och-input-holder">
+        <div class="och-pull-right och-text-secondry">
+            <a href="#<%uri%>" data-bind="btn-edit"> Добавить </a>
+        </div>
+        <div class="och-text-secondry">
+        <%data.passport_type_visual%>
+        <%^data.passport_type_visual%> Заграничный паспорт <%/data.passport_type_visual%>
+        </div>
+    </div>
+    <%/data.passport_number%>
+    <%#data.passport_number%>
+    <a class="och-input-holder" href="#<%uri%>" data-bind="btn-edit">
+        <div class="och-pull-right och-text-secondry">
+            <%#last_4_digits%><%data.passport_number%><%/last_4_digits%>
+        </div>
+        <%data.passport_type_visual%>
+        <%^data.passport_type_visual%> Заграничный паспорт <%/data.passport_type_visual%>
+    </a>
+    <%/data.passport_number%>
+    <%/is_passport%>
+
+    <%#is_visa%>
+    <%^data.visa_number%>
+    <div class="och-input-holder">
+        <div class="och-pull-right och-text-secondry">
+            <a href="#<%uri%>" data-bind="btn-edit"> Добавить </a>
+        </div>
+        <div class="och-text-secondry"> Виза </div>
+    </div>
+    <%/data.visa_number%>
+    <%#data.visa_number%>
+    <a class="och-input-holder" href="#<%uri%>" data-bind="btn-edit">
+        <div class="och-pull-right och-text-secondry">
+            <%data.visa_issue_country_name%> <%#last_4_digits%><%data.visa_number%><%/last_4_digits%>
+        </div> Виза </a>
+    <%/data.visa_number%>
+    <%/is_visa%>
+
+    <%#is_ffn%>
+    <%^data.ffn%>
+    <div class="och-input-holder">
+        <div class="och-pull-right och-text-secondry">
+            <a href="#<%uri%>" data-bind="btn-edit"> Добавить </a>
+        </div>
+        <div class="och-text-secondry"> Бонусная карта </div>
+    </div>
+    <%/data.ffn%>
+    <%#data.ffn%>
+    <a class="och-input-holder" href="#<%uri%>" data-bind="btn-edit">
+        <div class="och-pull-right och-text-secondry">
+            <%data.ffn_airline.code%> <%#last_4_digits%><%data.ffn%><%/last_4_digits%>
+        </div> Бонусная карта </a>
+    <%/data.ffn%>
+    <%/is_ffn%>
+<%/edit_mode%>
+<%#edit_mode%>
+    <div class="och-content">
+        <div class="och-item">
+            <input type="hidden" name="document_type" value="InternationalPassport">
+
+            <%#is_passport%>
+            <div class="och-form-group och-passport">
+                <div class="och-form-group required" data-bind="form-group">
+                    <input type="text" class="och-form-control required"
+                        placeholder="Номер документа"
+                        name="passport_number" value="<%data.passport_number%>">
+                </div>
+                <div class="och-form-group required" data-bind="form-group">
+                    <input type="text" class="och-form-control required"
+                        placeholder="Страна выдачи, например,  Russia или RU"
+                        name="passport_issue_country" autocomplete="off"
+                        value="<%data.passport_issue_country_name%><%^data.passport_issue_country_name%><%data.passport_issue_country%><%/data.passport_issue_country_name%>"
+                        data-value="<%data.passport_issue_country%>" data-ac="Citizenship">
+                </div>
+                <div class="och-form-group" data-bind="form-group">
+                    <input type="date" class="och-form-control"
+                        placeholder="Дата выдачи"
+                        name="passport_issue_date" value="<%data.passport_issue_date%>">
+                </div>
+                <div class="och-form-group required" data-bind="form-group">
+                    <div class="och-input-group">
+                        <input type="date" class="och-form-control required"
+                            placeholder="Срок действия"
+                            name="passport_expiry_date" value="<%data.passport_expiry_date%>">
+                    </div>
+                </div>
+            </div>
+            <%/is_passport%>
+
+            <%#is_visa%>
+            <div class="och-form-group och-visa">
+                <div class="och-form-group required" data-bind="form-group">
+                    <input type="text" class="och-form-control required"
+                        placeholder="Номер визы"
+                        name="visa_number" value="<%data.visa_number%>">
+                </div>
+                <div class="och-form-group required" data-bind="form-group">
+                    <input type="text" class="och-form-control required"
+                    placeholder="Страна выдачи, например,  Russia или RU" name="visa_issue_country" autocomplete="off"
+                    value="<%data.visa_issue_country_name%><%^data.visa_issue_country_name%><%data.visa_issue_country%><%/data.visa_issue_country_name%>" data-value="<%data.visa_issue_country%>" data-ac="Citizenship">
+                </div>
+                <div class="och-form-group required" data-bind="form-group">
+                    <input type="date" class="och-form-control required"
+                        placeholder="Действительна с"
+                        name="visa_issue_date" value="<%data.visa_issue_date%>">
+                </div>
+                <div class="och-form-group required" data-bind="form-group">
+                    <input type="date" class="och-form-control required"
+                    placeholder="Действительна до"
+                    name="visa_expiry_date" value="<%data.visa_expiry_date%>">
+                </div>
+            </div>
+            <%/is_visa%>
+
+            <%#is_ffn%>
+            <div class="och-form-group och-ffn">
+                <div class="och-form-group required" data-bind="form-group">
+                    <input type="text" class="och-form-control required" name="ffn"
+                        placeholder="Бонусная карта"
+                        value="<%data.ffn%>">
+                </div>
+                <div class="och-form-group required" data-bind="form-group">
+                    <input type="text" class="och-form-control required"
+                        placeholder="Авиакомпания, например,  Aeroflot или SU"
+                        name="ffn_airline_id" autocomplete="off"
+                        data-value="<%data.ffn_airline_id%>"
+                        value="<%data.ffn_airline.name%><%^data.ffn_airline.name%><%data.ffn_airline_id%><%/data.ffn_airline.name%>" data-ac="FlightChars">
+                </div>
+            </div>
+            <%/is_ffn%>
+
+            <%#parent_edit_mode%>
+            <div class="och-form-group" data-bind="form-group">
+            <%^is_new%>
+                <a href="#" class="och-text-danger och-pull-right" data-bind="btn-delete">Удалить документ</a>
+            <%/is_new%>
+            <%#is_new%>
+                <a href="#" class="och-text-danger och-pull-right" data-bind="btn-stop-edit">Отменить добавление документа</a>
+            <%/is_new%>
+            </div>
+            <%/parent_edit_mode%>
+            <%^parent_edit_mode%>
+            <div class="och-form-group" data-bind="form-group">
+                <button type="submit" class="och-btn och-btn-primary och-btn-block"> Сохранить </button>
+                <button type="submit" class="och-btn och-btn-danger och-btn-block" data-bind="btn-stop-edit"> Отмена </button>
+            </div>
+            <%/parent_edit_mode%>
+        </div>
+        <div></div>
+    </div>
+<%/edit_mode%></script><script type="text/x-template" id="seatmap_preview" data-title="Карта мест ..."><div class="och-seatmap-component">
+        <div class="och-seats-not-found collapse" data-bind="seats-not-found"> Не найдено ни одного места </div>
+        <div class="och-legend collapse in">
+            <button type="button" class="och-close" data-toggle="collapse" data-target=".collapse">
+                <i class="och-icon och-icon-cross"></i>
+            </button>
+            <table class="och-seatmap">
+            <tbody>
+            <tr>
+                <td class="isExists"></td>
+                <td class="och-space">Место занято</td>
+            </tr>
+            <tr>
+                <td class="isExists isEmpty"></td>
+                <td class="och-space">Свободное место</td>
+            </tr>
+            <tr>
+                <td class="isExists isCurrent"></td>
+                <td class="och-space">Выбранное место</td>
+                <%#data.has_paid_seats%>
+            </tr>
+            <tr>
+                <td class="isExists isPaid isEmpty"></td>
+                <td class="och-space">Платное место</td>
+            <%/data.has_paid_seats%>
+            </tr>
+            </tbody></table>
+        </div>
+        <div class="och-seatmap-container" data-bind="seatmap-container"></div>
+   </div></script><script type="text/x-template" id="seatmap_strategies"><div class="och-strategies och-settings">
+            <div class="och-form-group" data-bind="form-group">
+                <a class="och-hint och-pull-right visible-xs" href="#skip-help" data-toggle="collapse"></a>
+                <span class="och-checkbox" data-bind="checkbox">
+                    <input type="checkbox" name="skip" <%#is_skip%> checked<%/is_skip%>>
+                </span> Не выбирать место (выбрано заранее) <a class="och-hint hidden-xs" href="#skip-help" data-toggle="collapse"></a>
+                <div class="collapse och-well" id="skip-help"> Система пропустит выбор места при регистрации. <br>Полезно, если вы уже выбрали место при покупке билета.<br>Вы можете изменить правила выбора места в каждом отдельном бронировании. Не рекомендуем выбирать этот пункт для всех бронирований. </div>
+            </div>
+            <div class="och-form-group" data-bind="form-group">
+                <a class="och-hint och-pull-right visible-xs" href="#request-help" data-toggle="collapse"></a>
+                <span class="och-checkbox" data-bind="checkbox">
+                    <input type="checkbox" name="request" <%#is_request%> checked<%/is_request%>>
+                </span> Присылать мне карту мест для выбора <a class="och-hint hidden-xs" href="#request-help" data-toggle="collapse"></a>
+                <div class="collapse och-well" id="request-help"> После начала регистрации вы получите карту мест (если выбор места доступен). У вас будет 10 минут, чтобы на нее ответить, затем система автоматически выберет место в соответствии с вашими приоритетами. Обратите внимание, что изменения не применяются к регистрациям, которые находятся в процессе. </div>
+            </div>
+            <div class="och-form-group">
+                <div class="och-space"></div>
+                <label> Стратегии&nbsp;<a href="#strategies-<%num%>" class="och-hint" data-toggle="collapse"></a>
+                </label>
+                <div class="collapse och-well" id="strategies-<%num%>"> Слева написаны приоритеты, по которым система выбирает вам место. Кликните по любому из них и здесь вы увидите какие места будут выбраны на схеме самолета. Тот приоритет, который стоит выше в списке система выполняет в первую очередь. Чтобы поменять приоритеты — перетащите их в нужном порядке с помощью знака "тянуть". </div>
+            </div>
+            <div class="och-drag-list och-counter-reset" data-bind="drag-list">
+            <%#strategiesList%>
+                <div class="och-form-group och-drag" data-bind="drag">
+                    <div class="och-row och-half-gap">
+                        <div class="och-col-sm-1 och-col-xs-2">
+                            <span class="och-badge och-counter"></span>
+                            <div class="och-drag-holder">
+                                <i class="och-icon och-icon-order"></i>
+                            </div>
+                        </div>
+                        <div class="och-col-xs-10 och-col-sm-7">
+                            <select class="och-form-control" data-inital_value="<%strategy%>" name="strategy">
+                            <%#strategies%>
+                            <%#is_xs%>
+                            <optgroup label="">Стратегии</optgroup>
+                            <%/is_xs%>
+                            <option value="<%id%>"><%name%></option>
+                            <%/strategies%>
+                            </select>
+                        </div>
+                        <div class="och-half-space visible-xs"></div>
+                        <div class="och-col-xs-2 visible-xs"></div>
+                        <div class="och-col-xs-7 och-col-sm-4 och-text-center">
+                            <div class="och-btn-group och-plane-selector<%^has_modifiers%> hidden<%/has_modifiers%>" data-toggle="buttons" data-bind="plane-selector">
+                                <button class="och-btn och-btn-clear <%#modifiers.rear%> active<%/modifiers.rear%>" type="button">
+                                    <i class="och-icon och-icon-plane-rear"></i>
+                                    <input type="checkbox" name="rear" value="1" <%#modifiers.rear%> checked<%/modifiers.rear%>/>
+                                </button>
+                                <button class="och-btn och-btn-clear <%#modifiers.middle%> active<%/modifiers.middle%>" type="button">
+                                    <i class="och-icon och-icon-plane-mid"></i>
+                                    <input type="checkbox" name="middle" value="1" <%#modifiers.middle%> checked<%/modifiers.middle%>/>
+                                </button>
+                                <button class="och-btn och-btn-clear <%#modifiers.front%> active<%/modifiers.front%>" type="button">
+                                    <i class="och-icon och-icon-plane-front"></i>
+                                    <input type="checkbox" name="front" value="1" <%#modifiers.front%> checked<%/modifiers.front%>/>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="och-space hidden-xs"></div>
+                        <div class="och-col-sm-1 hidden-xs"></div>
+                        <div class="och-col-xs-3">
+                            <button class="och-btn-clear" type="button" data-bind="show-widget">
+                                <i class="och-icon och-icon-eye"></i> Показать </button>
+                        </div>
+                    </div>
+                </div>
+            <%/strategiesList%>
+            </div>
+            <div class="och-space"></div>
+            <a href="#" data-bind="add-strategy" data-psgs="<%num%>">
+                <i class="och-icon och-icon-plus"></i> Добавить стратегию </a>
+        </div>
+        <div class="och-modal fade" tabindex="-1" data-bind="seatmap-container">
+            <div class="och-modal-dialog">
+                <div class="och-modal-content">
+                    <div class="och-modal-body">
+                        <div class="obj-seatmap_preview subcomponent" data-uri="<%uri%>seatmap_preview/" data-class="seatmap_preview">
+                        </div>
+                    </div>
+                    <div class="och-modal-footer">
+                        <button type="button" class="och-btn och-btn-default" data-dismiss="modal"> закрыть </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="och-modal-backdrop fade" data-bind="seatmap-container-backdrop"></div>
+    </div></script><script type="text/json" id="seatmap_strategies_dict"> {"1": [{"has_modifiers": true, "id": "one_psg_window", "name": "\u0443 \u043e\u043a\u043d\u0430", "priority": 0, "psg_count": 1, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "one_psg_aisle", "name": "\u0443 \u043f\u0440\u043e\u0445\u043e\u0434\u0430", "priority": 1, "psg_count": 1, "psg_max": 0, "psg_min": 0}, {"has_modifiers": false, "id": "find_any_seat", "name": "\u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e", "priority": 2, "psg_count": 0, "psg_max": 10, "psg_min": 1}], "10": [{"has_modifiers": false, "id": "split_on_groups", "name": "\u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c \u043d\u0430 \u0433\u0440\u0443\u043f\u043f\u044b 1-3 \u043f\u0430\u0441\u0441\u0430\u0436\u0438\u0440\u0430 \u0438 \u043f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044e", "priority": 0, "psg_count": 0, "psg_max": 10, "psg_min": 4}, {"has_modifiers": false, "id": "find_any_seat", "name": "\u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e", "priority": 1, "psg_count": 0, "psg_max": 10, "psg_min": 1}], "2": [{"has_modifiers": true, "id": "two_psg_two_together_window", "name": "\u0432\u043c\u0435\u0441\u0442\u0435 \u0443 \u043e\u043a\u043d\u0430", "priority": 0, "psg_count": 2, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "two_psg_two_together_aisle", "name": "\u0432\u043c\u0435\u0441\u0442\u0435 \u0443 \u043f\u0440\u043e\u0445\u043e\u0434\u0430", "priority": 1, "psg_count": 2, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "two_psg_three_seats_block", "name": "\u0443 \u043e\u043a\u043d\u0430 \u0438 \u043f\u0440\u043e\u0445\u043e\u0434\u0430 \u0441 \u043f\u0443\u0441\u0442\u044b\u043c \u043c\u0435\u0441\u0442\u043e\u043c \u0432 \u0441\u0435\u0440\u0435\u0434\u0438\u043d\u0435", "priority": 2, "psg_count": 2, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "two_psg_two_together", "name": "\u0432\u043c\u0435\u0441\u0442\u0435", "priority": 3, "psg_count": 2, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "two_middle_aisle", "name": "\u0440\u044f\u0434\u043e\u043c \u0432 \u0446\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u043e\u043c \u0431\u043b\u043e\u043a\u0435 \u0443 \u043f\u0440\u043e\u0445\u043e\u0434\u0430", "priority": 4, "psg_count": 2, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "two_psg_aisle", "name": "\u0447\u0435\u0440\u0435\u0437 \u043f\u0440\u043e\u0445\u043e\u0434", "priority": 5, "psg_count": 2, "psg_max": 0, "psg_min": 0}, {"has_modifiers": false, "id": "find_any_seat", "name": "\u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e", "priority": 6, "psg_count": 0, "psg_max": 10, "psg_min": 1}], "3": [{"has_modifiers": true, "id": "three_psg_three_psg_together_window", "name": "\u0432\u043c\u0435\u0441\u0442\u0435 \u0443 \u043e\u043a\u043d\u0430", "priority": 0, "psg_count": 3, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "three_psg_two_rows_window", "name": "\u0434\u0432\u043e\u0435 \u0443 \u043e\u043a\u043d\u0430 \u0442\u0440\u0435\u0442\u0438\u0439 \u043f\u043e\u0437\u0430\u0434\u0438 \u0443 \u043e\u043a\u043d\u0430", "priority": 1, "psg_count": 3, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "three_psg_three_together", "name": "\u0432\u043c\u0435\u0441\u0442\u0435", "priority": 2, "psg_count": 3, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "three_middle_block", "name": "\u0440\u044f\u0434\u043e\u043c \u0432 \u0446\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u043e\u043c \u0431\u043b\u043e\u043a\u0435", "priority": 3, "psg_count": 3, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "three_middle_aisle", "name": "\u0440\u044f\u0434\u043e\u043c \u0432 \u0446\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u043e\u043c \u0431\u043b\u043e\u043a\u0435 \u0443 \u043f\u0440\u043e\u0445\u043e\u0434\u0430", "priority": 4, "psg_count": 3, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "three_psg_two_rows_aisle", "name": "\u0434\u0432\u043e\u0435 \u0443 \u043f\u0440\u043e\u0445\u043e\u0434\u0430 \u0442\u0440\u0435\u0442\u0438\u0439 \u043f\u043e\u0437\u0430\u0434\u0438 \u0443 \u043f\u0440\u043e\u0445\u043e\u0434\u0430", "priority": 5, "psg_count": 3, "psg_max": 0, "psg_min": 0}, {"has_modifiers": false, "id": "find_any_seat", "name": "\u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e", "priority": 6, "psg_count": 0, "psg_max": 10, "psg_min": 1}], "4": [{"has_modifiers": true, "id": "four_psg_together_window", "name": "\u0432\u043c\u0435\u0441\u0442\u0435 \u0432 \u043e\u0434\u043d\u043e\u043c \u0440\u044f\u0434\u0443 \u0440\u044f\u0434\u043e\u043c \u0441 \u043e\u043a\u043d\u043e\u043c", "priority": 0, "psg_count": 4, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "four_psg_three_block_one_behind", "name": "\u0442\u0440\u043e\u0435 \u0440\u044f\u0434\u043e\u043c \u0432 \u0431\u043b\u043e\u043a\u0435 \u0438\u0437 3 \u043c\u0435\u0441\u0442, \u043e\u0434\u0438\u043d \u043f\u043e\u0437\u0430\u0434\u0438 \u0443 \u043e\u043a\u043d\u0430", "priority": 1, "psg_count": 4, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "four_psg_middle_block", "name": "\u0432\u043c\u0435\u0441\u0442\u0435 \u0432 \u0446\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u043e\u043c \u0431\u043b\u043e\u043a\u0435", "priority": 2, "psg_count": 4, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "four_psg_together", "name": "\u0432\u043c\u0435\u0441\u0442\u0435 \u0432 \u043e\u0434\u043d\u043e\u043c \u0440\u044f\u0434\u0443", "priority": 3, "psg_count": 4, "psg_max": 0, "psg_min": 0}, {"has_modifiers": true, "id": "four_psg_two_and_two", "name": "\u043f\u043e\u0441\u0430\u0434\u0438\u0442\u044c \u043f\u043e \u0434\u0432\u043e\u0435", "priority": 4, "psg_count": 4, "psg_max": 0, "psg_min": 0}, {"has_modifiers": false, "id": "split_on_groups", "name": "\u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c \u043d\u0430 \u0433\u0440\u0443\u043f\u043f\u044b 1-3 \u043f\u0430\u0441\u0441\u0430\u0436\u0438\u0440\u0430 \u0438 \u043f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044e", "priority": 5, "psg_count": 0, "psg_max": 10, "psg_min": 4}, {"has_modifiers": false, "id": "find_any_seat", "name": "\u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e", "priority": 6, "psg_count": 0, "psg_max": 10, "psg_min": 1}], "5": [{"has_modifiers": false, "id": "split_on_groups", "name": "\u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c \u043d\u0430 \u0433\u0440\u0443\u043f\u043f\u044b 1-3 \u043f\u0430\u0441\u0441\u0430\u0436\u0438\u0440\u0430 \u0438 \u043f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044e", "priority": 0, "psg_count": 0, "psg_max": 10, "psg_min": 4}, {"has_modifiers": false, "id": "find_any_seat", "name": "\u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e", "priority": 1, "psg_count": 0, "psg_max": 10, "psg_min": 1}], "6": [{"has_modifiers": false, "id": "split_on_groups", "name": "\u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c \u043d\u0430 \u0433\u0440\u0443\u043f\u043f\u044b 1-3 \u043f\u0430\u0441\u0441\u0430\u0436\u0438\u0440\u0430 \u0438 \u043f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044e", "priority": 0, "psg_count": 0, "psg_max": 10, "psg_min": 4}, {"has_modifiers": false, "id": "find_any_seat", "name": "\u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e", "priority": 1, "psg_count": 0, "psg_max": 10, "psg_min": 1}], "7": [{"has_modifiers": false, "id": "split_on_groups", "name": "\u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c \u043d\u0430 \u0433\u0440\u0443\u043f\u043f\u044b 1-3 \u043f\u0430\u0441\u0441\u0430\u0436\u0438\u0440\u0430 \u0438 \u043f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044e", "priority": 0, "psg_count": 0, "psg_max": 10, "psg_min": 4}, {"has_modifiers": false, "id": "find_any_seat", "name": "\u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e", "priority": 1, "psg_count": 0, "psg_max": 10, "psg_min": 1}], "8": [{"has_modifiers": false, "id": "split_on_groups", "name": "\u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c \u043d\u0430 \u0433\u0440\u0443\u043f\u043f\u044b 1-3 \u043f\u0430\u0441\u0441\u0430\u0436\u0438\u0440\u0430 \u0438 \u043f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044e", "priority": 0, "psg_count": 0, "psg_max": 10, "psg_min": 4}, {"has_modifiers": false, "id": "find_any_seat", "name": "\u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e", "priority": 1, "psg_count": 0, "psg_max": 10, "psg_min": 1}], "9": [{"has_modifiers": false, "id": "split_on_groups", "name": "\u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c \u043d\u0430 \u0433\u0440\u0443\u043f\u043f\u044b 1-3 \u043f\u0430\u0441\u0441\u0430\u0436\u0438\u0440\u0430 \u0438 \u043f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044e", "priority": 0, "psg_count": 0, "psg_max": 10, "psg_min": 4}, {"has_modifiers": false, "id": "find_any_seat", "name": "\u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e", "priority": 1, "psg_count": 0, "psg_max": 10, "psg_min": 1}]} </script><script type="text/json" id="seatmap_preview_presets">[
+        {
+            "aircraft":"Airbus A320 много свободных мест",
+            "seatmap": [
+                {"rows":[{"isEmpty":false}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true} ], "seatsCount":9,"seatName":"A","startNum":6 },
+                {"seatName":"B", "startNum":6, "rows":[{"isEmpty":false}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}], "seatsCount":11 },
+                {"seatName":"C","startNum":6,"seatsCount":11, "rows":[{"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true} ] },
+                {"seatName":"space"},
+                {"rows":[{"isEmpty":true}, {"isEmpty":true}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}], "seatsCount":11,"seatName":"D","startNum":6 },
+                {"seatName":"E", "startNum":6, "rows":[{"isEmpty":true}, {"isEmpty":true}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}], "seatsCount":11 },
+                {"seatName":"F","startNum":6,"seatsCount":9, "rows":[{"isEmpty":false}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":false}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}, {"isEmpty":true}] }
+            ]
+        }
+    ]</script><script type="text/x-template" id="seatmap"><table class="och-seatmap<%#is_selectable%> och-selectable<%/is_selectable%><%#is_example%> och-example<%/is_example%>" data-bind="seatmap">
+        <thead><tr>
+            <%#columns%>
+                <%#name%><th class="och-text-center"><%name%></th><%/name%>
+                <%^name%><th class="och-space"></th><%/name%>
+            <%/columns%>
+        </tr></thead>
+        <tbody>
+            <%#rows%>
+            <tr data-index="<%i%>">
+                <%#cols%>
+                    <%^space%><td class="<%#classList%><%.%> <%/classList%>" data-index="<%index%>" <%#isPaid%>data-toggle="tooltip" title="<%cost%>"<%/isPaid%>></td><%/space%>
+                    <%#space%><td class="och-space"><%num%></td><%/space%>
+                <%/cols%>
+            <%/rows%>
+        </tbody>
+    </table></script><script type="text/json" id="och-i18n">{
+            "new_passenger": "добавить пассажира",
+            "delete_confirmation": "Вы действительно хотите удалить?",
+            "document_type_visas": "Виза",
+            "document_type_passports": "паспорт или ID",
+            "document_type_ffns": "Бонусная карта",
+            "requested": "Заполнить запрошенные данные"
+        }</script>
