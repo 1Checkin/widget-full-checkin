@@ -921,10 +921,12 @@
             "document_type_passports": "Passport or ID",
             "document_type_ffns": "FFP number",
             "requested": "this field is required",
-            "unknown_error": "An unexpected error occurred, please retry the request. Our developers already know about this issue"
+            "unknown_error": "An unexpected error occurred, please retry the request. Our developers already know about this issue",
+            "need_to_accept": "you must accept these conditions"
         }</script><script>document.addEventListener('DOMContentLoaded', () => {
             window.widget = new onecheckin_widget_full_checkin(
                 document.getElementById('container'), {
+                    ready: () => {console.log('ready')},
                     data: {
                       "passengers": [
                         {
