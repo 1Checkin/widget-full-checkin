@@ -361,12 +361,12 @@
                     <div class="och-form-group"data-bind="form-group">
                         <span class="och-checkbox" data-bind="checkbox">
                             <input type="checkbox" name="agreement" data-bind="agreement" class="required" <%#data.agreement%> checked<%/data.agreement%>>
-                        </span> Profile: i agree to the <a href="tos.html" target="_blank"> profile: Terms and Conditions of service </a>
+                        </span> Я согласен(а) с <a href="tos.html" target="_blank"> условиями использования сервиса </a>
                     </div>
                     <div class="och-form-group" data-bind="form-group">
                         <span class="och-checkbox" data-bind="checkbox">
                             <input type="checkbox" name="email_agreement" data-bind="agreement" class="required"  <%#data.email_agreement%> checked<%/data.email_agreement%>>
-                        </span> Profile: i allow to send me status via email </div>
+                        </span> Я согласен получаить уведомления о статусе регистрации на указанный e-mail </div>
                     <%#error%>
                     <div class="och-alert och-alert-danger">
                         <%error%>
@@ -380,7 +380,32 @@
     <%/success%>
     <%#success%>
     <div class="och-alert och-alert-success">
-        <button class="och-close" data-dismess="alert">&times;</button> profile: checkin successfully sent </div>
+        <p><b>Заявка на регистрацию успешна принята</b></p>
+        <p>
+            <b> Номер заявки: <%id%><br> регистрация запланирована на:
+                    <%#date_time_format%><%scheduled_checkin_time%><%/date_time_format%>
+            </b>
+        </p>
+
+        <p><b>Email: <%data.email%></b></p>
+        <p><b>Пассажиры</b></p>
+        <ol>
+        <%#passengers%>
+        <li><%first_name%> <%last_name%></li>
+        <%/passengers%>
+        </ol>
+        <p><b>Перелеты</b></p>
+        <ol>
+        <%#flights%>
+        <li>
+            <%marketing_carrier_code%>-<%flight_num%>
+            <%#date_format%><%departure_date%><%/date_format%>
+            <%departure_time%>
+            <%departure_code%> &larr; <%destination_code%>
+        </li>
+        <%/flights%>
+        </ol>
+    </div>
     <%/success%>
 
 </form></script><script type="text/x-template" id="flight" data-title="Перелет"><%^edit_mode%>
@@ -451,7 +476,7 @@
             <input type="text" class="och-form-control required" name="flight_num" value="<%data.flight_num%>" placeholder="Номер рейса">
         </div>
         <div class="och-form-group required" data-bind="form-group">
-            <input type="date" class="och-form-control required" name="departure_date" value="<%data.departure_date%>" placeholder="Дата вылета">
+            <input type="date" class="och-form-control required" name="departure_date" value="<%data.departure_date%>" placeholder="Дата вылета" data-min-date="today">
         </div>
         <div class="och-form-group" data-bind="form-group">
             <div class="och-row och-half-gap">
@@ -534,7 +559,7 @@
             <div class="och-form-group" data-bind="form-group">
                 <input type="date" class="och-form-control"
                     placeholder="Дата рождения"
-                    name="date_of_birth" value="<%data.date_of_birth%>">
+                    name="date_of_birth" value="<%data.date_of_birth%>"  data-max-date="today">
             </div>
             <div class="och-form-group" data-bind="form-group">
                 <input type="text" class="och-form-control"
@@ -664,13 +689,13 @@
                 <div class="och-form-group" data-bind="form-group">
                     <input type="date" class="och-form-control"
                         placeholder="Дата выдачи"
-                        name="passport_issue_date" value="<%data.passport_issue_date%>">
+                        name="passport_issue_date" value="<%data.passport_issue_date%>" data-max-date="today">
                 </div>
                 <div class="och-form-group required" data-bind="form-group">
                     <div class="och-input-group">
                         <input type="date" class="och-form-control required"
                             placeholder="Срок действия"
-                            name="passport_expiry_date" value="<%data.passport_expiry_date%>">
+                            name="passport_expiry_date" value="<%data.passport_expiry_date%>" data-min-date="today">
                     </div>
                 </div>
             </div>
@@ -691,12 +716,12 @@
                 <div class="och-form-group required" data-bind="form-group">
                     <input type="date" class="och-form-control required"
                         placeholder="Действительна с"
-                        name="visa_issue_date" value="<%data.visa_issue_date%>">
+                        name="visa_issue_date" value="<%data.visa_issue_date%>" data-max-date="today">
                 </div>
                 <div class="och-form-group required" data-bind="form-group">
                     <input type="date" class="och-form-control required"
                     placeholder="Действительна до"
-                    name="visa_expiry_date" value="<%data.visa_expiry_date%>">
+                    name="visa_expiry_date" value="<%data.visa_expiry_date%>" data-min-date="today">
                 </div>
             </div>
             <%/is_visa%>
@@ -883,10 +908,10 @@
             <%/rows%>
         </tbody>
     </table></script><script type="text/json" id="och-i18n">{
-            "new_passenger": "добавить пассажира",
-            "delete_confirmation": "Вы действительно хотите удалить?",
-            "document_type_visas": "Виза",
-            "document_type_passports": "паспорт или ID",
-            "document_type_ffns": "Бонусная карта",
-            "requested": "Заполнить запрошенные данные"
-        }</script>
+        "new_passenger": "добавить пассажира",
+        "delete_confirmation": "Вы действительно хотите удалить?",
+        "document_type_visas": "Виза",
+        "document_type_passports": "паспорт или ID",
+        "document_type_ffns": "Бонусная карта",
+        "unknown_error": "profile: create checkin unknown error"
+    }</script>
