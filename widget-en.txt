@@ -501,7 +501,7 @@
             data-value="<%data.destination_code%>" value="<%#data.destination.name%><%data.destination.name%><%/data.destination.name%><%^data.destination.name%><%data.destination_code%><%/data.destination.name%>" data-ac="ArrivalAirport">
         </div>
         <button class="och-btn och-btn-danger och-btn-block" data-bind="btn-stop-edit" tabindex="-1" type="button"> Cancel editing flight </button>
-        <button class="och-btn och-btn-primary och-btn-block" data-bind="save" tabindex="-1" type="button"> Save </button>
+        <button class="och-btn och-btn-primary och-btn-block" data-bind="save" type="button"> Save </button>
     </div>
     <%/edit_mode%></script><script type="text/x-template" id="passenger" data-delete-confirmation="Are you sure you want to delete passenger PSG?"><div class="och-content">
     <%^edit_mode%>
@@ -913,5 +913,6 @@
         "document_type_visas": "visa",
         "document_type_passports": "Passport or ID",
         "document_type_ffns": "FFP number",
-        "unknown_error": "profile: create checkin unknown error"
+        "requested": "this field is required",
+        "unknown_error": "An unexpected error occurred, please retry the request. Our developers already know about this issue"
     }</script>
