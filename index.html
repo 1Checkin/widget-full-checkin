@@ -932,9 +932,12 @@
             window.widget = new onecheckin_widget_full_checkin(
                 document.getElementById('container'), {
                     ready: () => {console.log('ready')},
-                    lang: 'ru',
-                    endpoints: 'test',
-                    autocomplete: 'test',
+                    "lang": "en",
+                    "tos_url": "tos.html",
+                    "privacy_policy_url": "privacy-policy.html",
+                    "endpoints": "https://mw.dev.1check.in/widget/",
+                    "autocomplete": "https://mw.dev.1check.in/landing/autocomplete/",
+                    "template_url": "/theme/widget-full-checkin/widget-en.txt",
                     data: {
                       "passengers": [
                         {
