@@ -368,7 +368,12 @@
                     <div class="och-form-group"data-bind="form-group">
                         <span class="och-checkbox" data-bind="checkbox">
                             <input type="checkbox" name="agreement" data-bind="agreement" class="required" <%#data.agreement%> checked<%/data.agreement%>>
-                        </span> I agree to the <a href="tos.html" target="_blank"> Terms and Conditions of the service </a>
+                        </span> I have read and agree to the <a href="<%tos_url%>" target="_blank"> Terms and Conditions of the service </a>
+                    </div>
+                    <div class="och-form-group" data-bind="form-group">
+                        <span class="och-checkbox" data-bind="checkbox">
+                            <input type="checkbox" name="privacy_agreement" data-bind="agreement" class="required" <%#data.privacy_agreement%> checked<%/data.privacy_agreement%>>
+                        </span> I have read and agree to the <a href="<%privacy_policy_url%>" target="_blank"> Privacy policy of the service </a>
                     </div>
                     <div class="och-form-group" data-bind="form-group">
                         <span class="och-checkbox" data-bind="checkbox">

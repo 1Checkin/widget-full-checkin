@@ -361,7 +361,12 @@
                     <div class="och-form-group"data-bind="form-group">
                         <span class="och-checkbox" data-bind="checkbox">
                             <input type="checkbox" name="agreement" data-bind="agreement" class="required" <%#data.agreement%> checked<%/data.agreement%>>
-                        </span> Я согласен(а) с <a href="tos.html" target="_blank"> условиями использования сервиса </a>
+                        </span> Я прочитал(а) и согласен(а) с <a href="<%tos_url%>" target="_blank"> условиями использования сервиса </a>
+                    </div>
+                    <div class="och-form-group" data-bind="form-group">
+                        <span class="och-checkbox" data-bind="checkbox">
+                            <input type="checkbox" name="privacy_agreement" data-bind="agreement" class="required" <%#data.privacy_agreement%> checked<%/data.privacy_agreement%>>
+                        </span> Я прочитал(а) и согласен(а) с <a href="<%privacy_policy_url%>" target="_blank"> С условиями хранения и обработки персональных данных </a>
                     </div>
                     <div class="och-form-group" data-bind="form-group">
                         <span class="och-checkbox" data-bind="checkbox">
