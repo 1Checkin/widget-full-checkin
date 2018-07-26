@@ -384,7 +384,7 @@
     </div>
     <%/success%>
     <%#success%>
-    <div class="och-alert och-alert-success"> Profile: checkin with data success message </div>
+    <div class="och-alert och-alert-success"> Мы приступим к регистрации после подтверждения вашего e-mail. <br> вам отправлено письмо со ссылкой, перейдите по ней, чтобы продолжить.<br> </div>
     <%/success%>
 </form></script><script type="text/x-template" id="flight" data-title="Перелет"><%^edit_mode%>
     <div class="och-item och-item-space och-from-to">
