@@ -368,12 +368,12 @@
                     <div class="och-form-group"data-bind="form-group">
                         <span class="och-checkbox" data-bind="checkbox">
                             <input type="checkbox" name="agreement" data-bind="agreement" class="required" <%#data.agreement%> checked<%/data.agreement%>>
-                        </span> I agree to the <a href="tos.html" target="_blank"> Terms and Conditions of service </a>
+                        </span> I agree to the <a href="tos.html" target="_blank"> Terms and Conditions of the service </a>
                     </div>
                     <div class="och-form-group" data-bind="form-group">
                         <span class="och-checkbox" data-bind="checkbox">
                             <input type="checkbox" name="email_agreement" data-bind="agreement" class="required"  <%#data.email_agreement%> checked<%/data.email_agreement%>>
-                        </span> I agree to receive check-in status updates by email </div>
+                        </span> I agree to receive check-in status updates via email </div>
                     <%#error%>
                     <div class="och-alert och-alert-danger">
                         <%error%>
@@ -922,7 +922,7 @@
             "document_type_ffns": "FFP number",
             "requested": "this field is required",
             "unknown_error": "An unexpected error occurred, please retry the request. Our developers already know about this issue",
-            "need_to_accept": "you must accept these conditions"
+            "need_to_accept": "You have to read and accept these conditions in order to use our service"
         }</script><script>document.addEventListener('DOMContentLoaded', () => {
             window.widget = new onecheckin_widget_full_checkin(
                 document.getElementById('container'), {
