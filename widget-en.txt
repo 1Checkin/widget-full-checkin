@@ -384,35 +384,8 @@
     </div>
     <%/success%>
     <%#success%>
-    <div class="och-alert och-alert-success">
-        <p><b>Application for check-in successfully accepted</b></p>
-        <p>
-            <b> Application id: <%id%><br> Check-in scheduled for:
-                    <%#date_time_format%><%scheduled_checkin_time%><%/date_time_format%>
-            </b>
-        </p>
-
-        <p><b>Email: <%data.email%></b></p>
-        <p><b>Passengers</b></p>
-        <ol>
-        <%#passengers%>
-        <li><%first_name%> <%last_name%></li>
-        <%/passengers%>
-        </ol>
-        <p><b>Flights</b></p>
-        <ol>
-        <%#flights%>
-        <li>
-            <%marketing_carrier_code%>-<%flight_num%>
-            <%#date_format%><%departure_date%><%/date_format%>
-            <%departure_time%>
-            <%departure_code%> &larr; <%destination_code%>
-        </li>
-        <%/flights%>
-        </ol>
-    </div>
+    <div class="och-alert och-alert-success"> Profile: checkin with data success message </div>
     <%/success%>
-
 </form></script><script type="text/x-template" id="flight" data-title="Flight"><%^edit_mode%>
     <div class="och-item och-item-space och-from-to">
         <div class="och-row och-half-gap">
